@@ -10,13 +10,13 @@ import urllib2
 import re
 from bs4 import BeautifulSoup as bs
 
-class RestaurantRating():
+class RestaurantInfo():
 
 	def __init__(self):					
 	
 		self.fobj = open('restaurant_info.txt', 'a')
 	
-	def getRatings(self):
+	def getInfo(self):
 		page = 1
 		while(page<=89):
 			dic = {}
@@ -36,12 +36,12 @@ class RestaurantRating():
 					star = li[ele].find("div",{"class":"list_star"}).getText()
 					rating = li[ele].find("div",{"class":"list_rat"}).getText()
 					rating  = re.findall(r'\d+',rating)[0]
-					dic.update({"hotel_link" : str(hotel_link)})
-					dic.update({"hotel_id":str(hotel_id)})
-					dic.update({"hotel_star":eval(star)})
-					dic.update({"hotel_rating":eval(rating)})
-					dic.update({"hotel_name":str(hotel_name)})
-					# div2=li[j].find("div",{"class":"lg_col MT5"})
+					dic["hotel_link"] = str(hotel_link)
+					dic["hotel_id"] = str(hotel_id)
+					dic["hotel_star"] = eval(star)
+					dic["hotel_rating"] = eval(rating)
+					dic["hotel_name"] = str(hotel_name)
+					
 
 					
 					self.fobj.write(str(dic) + '\n')
@@ -52,5 +52,5 @@ class RestaurantRating():
 			page+= 1
 
 if __name__ =="__main__":
-	obj = RestaurantRating()
-	obj.getRatings()
+	obj = RestaurantInfo()
+	obj.getInfo()
